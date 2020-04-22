@@ -1,6 +1,6 @@
 name: hawk_fab_menu
 description: A floating action button menu that will pop up small fabs on top
-version: 0.0.1
+version: 0.2.0
 homepage: https://github.com/arnold-parge/hawk_fab_menu
 
 environment:

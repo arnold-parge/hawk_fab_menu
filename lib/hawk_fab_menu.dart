@@ -3,11 +3,11 @@ library hawk_fab_menu;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
-class AtomFabMenu extends StatefulWidget {
+class HawkFabMenu extends StatefulWidget {
   final Widget body;
-  final List<AtomFabMenuItem> items;
+  final List<HawkFabMenuItem> items;
   final double blur;
-  AtomFabMenu({
+  HawkFabMenu({
     @required this.body,
     @required this.items,
     this.blur: 0.8,
@@ -16,10 +16,10 @@ class AtomFabMenu extends StatefulWidget {
   }
 
   @override
-  _AtomFabMenuState createState() => _AtomFabMenuState();
+  _HawkFabMenuState createState() => _HawkFabMenuState();
 }
 
-class _AtomFabMenuState extends State<AtomFabMenu>
+class _HawkFabMenuState extends State<HawkFabMenu>
     with TickerProviderStateMixin {
   bool _isOpen = false;
   Duration _duration = Duration(milliseconds: 500);
@@ -110,7 +110,7 @@ class _AtomFabMenuState extends State<AtomFabMenu>
     );
   }
 
-  Widget _buildMenuItem(AtomFabMenuItem item) {
+  Widget _buildMenuItem(HawkFabMenuItem item) {
     var onTap = () {
       _toggleOpen();
       item.ontap();
@@ -174,11 +174,11 @@ class _AtomFabMenuState extends State<AtomFabMenu>
   }
 }
 
-class AtomFabMenuItem {
+class HawkFabMenuItem {
   String label;
   Icon icon;
   Function ontap;
-  AtomFabMenuItem({
+  HawkFabMenuItem({
     @required this.label,
     @required this.ontap,
     @required this.icon,

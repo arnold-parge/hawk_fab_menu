@@ -33,7 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: HawkFabMenu(
-        blur: 5.0,
         items: [
           HawkFabMenuItem(
             label: 'Menu 1',

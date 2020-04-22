@@ -1,7 +1,7 @@
 # hawk_fab_menu
-## A floating action button menu that will pop up small fabs on top
----
-## Example
+A floating action button menu that will pop up small fabs on top
+
+## Example:
 
 ```dart
   Widget build(BuildContext context) {

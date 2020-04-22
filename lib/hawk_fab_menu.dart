@@ -10,7 +10,7 @@ class HawkFabMenu extends StatefulWidget {
   HawkFabMenu({
     @required this.body,
     @required this.items,
-    this.blur: 0.8,
+    this.blur: 5.0,
   }) {
     assert(this.items.length > 0);
   }

@@ -1,3 +1,7 @@
+## [0.2.1] - 22nd April 2020
+
+* Updated README.
+
 ## [0.2.0] - 22nd April 2020
 
 * Renamed classes

@@ -1,6 +1,13 @@
 # hawk_fab_menu
 A floating action button menu that will pop up small fabs on top
 
+## Installation
+
+Add dependency in pubspec.yaml:
+```
+hawk_fab_menu: ^0.2.2
+```
+
 ## Example:
 
 ```dart
@@ -29,3 +36,10 @@ A floating action button menu that will pop up small fabs on top
     );
   }
 ```
+
+<img src="https://raw.githubusercontent.com/arnold-parge/hawk_fab_menu/master/example/hawk menu demo.gif" width="250" />
+
+### PS 
+- PRs are welcome
+- Please raise issues on https://github.com/arnold-parge/hawk_fab_menu.
+- Open for suggestions ❤️

@@ -64,8 +64,8 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       child: Stack(
         children: <Widget>[
           widget.body,
-          if (_isOpen) _buildBlurWidget(),
-          if (_isOpen) _buildMenuItemList(),
+          _isOpen? _buildBlurWidget() : Container(),
+          _isOpen? _buildMenuItemList(): Container(),
           _buildMenuButton(context),
         ],
       ),

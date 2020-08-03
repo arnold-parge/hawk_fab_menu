@@ -1,3 +1,11 @@
+## [0.3.2]
+
+## Customized icon and colors
+- Main fab color and icon
+- Menu fab color
+- Menu label and background color
+- Refactored non-breakable function and class
+
 ## [0.2.2]
 
 * Added demo gif in readme.

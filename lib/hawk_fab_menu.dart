@@ -3,6 +3,7 @@ library hawk_fab_menu;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+/// Wrapper that builds a FAB menu on top of [body] in a [Stack]
 class HawkFabMenu extends StatefulWidget {
   final Widget body;
   final List<HawkFabMenuItem> items;
@@ -27,9 +28,16 @@ class HawkFabMenu extends StatefulWidget {
 
 class _HawkFabMenuState extends State<HawkFabMenu>
     with TickerProviderStateMixin {
+  /// To check if the menu is open
   bool _isOpen = false;
+
+  /// The [Duration] for every animation
   Duration _duration = Duration(milliseconds: 500);
+
+  /// Animation controller that animates the menu item
   AnimationController _iconAnimationCtrl;
+
+  /// Animation that animates the menu item
   Animation<double> _iconAnimationTween;
 
   @override
@@ -45,6 +53,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     ).animate(_iconAnimationCtrl);
   }
 
+  /// Closes the menu if open and vice versa
   void _toggleMenu() {
     setState(() {
       _isOpen = !_isOpen;
@@ -56,6 +65,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     }
   }
 
+  /// If the menu is open and the device's back button is pressed then menu gets closed instead of going back.
   Future<bool> _preventPopIfOpen() async {
     if (_isOpen) {
       _toggleMenu();
@@ -79,6 +89,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     );
   }
 
+  /// Returns animated list of menu items
   Widget _buildMenuItemList() {
     return Positioned(
       bottom: 80,
@@ -121,6 +132,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     );
   }
 
+  /// Builds the blur effect when the menu is opened
   Widget _buildBlurWidget() {
     return InkWell(
       onTap: _toggleMenu,
@@ -136,6 +148,8 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     );
   }
 
+  /// Builds the main floating action button of the menu to the bottom right
+  /// On clicking of which the menu toggles
   Widget _buildMenuButton(BuildContext context) {
     return Positioned(
       bottom: 10,
@@ -153,8 +167,12 @@ class _HawkFabMenuState extends State<HawkFabMenu>
   }
 }
 
+/// Builds widget for a single menu item
 class _MenuItemWidget extends StatelessWidget {
+  /// Contains details for a single menu item
   final HawkFabMenuItem item;
+
+  /// A callback that toggles the menu
   final Function toggleMenu;
 
   _MenuItemWidget({
@@ -162,6 +180,7 @@ class _MenuItemWidget extends StatelessWidget {
     @required this.toggleMenu,
   });
 
+  /// Closes the menu and calls the function for a particular menu item
   void onTap() {
     this.toggleMenu();
     this.item.ontap();
@@ -187,9 +206,7 @@ class _MenuItemWidget extends StatelessWidget {
             ),
             child: Text(
               this.item.label,
-              style: TextStyle(
-                color: this.item.labelColor ?? Colors.black87
-              ),
+              style: TextStyle(color: this.item.labelColor ?? Colors.black87),
             ),
           ),
           FloatingActionButton(
@@ -204,13 +221,26 @@ class _MenuItemWidget extends StatelessWidget {
   }
 }
 
+/// Model for single menu item
 class HawkFabMenuItem {
+  /// Text label for for the menu item
   String label;
+
+  /// Corresponding icon for the menu item
   Icon icon;
+
+  /// Action that is to be performed on tapping the menu item
   Function ontap;
+
+  /// Background color for icon
   Color color;
+
+  /// Text color for label
   Color labelColor;
+
+  /// Background color for label
   Color labelBackgroundColor;
+
   HawkFabMenuItem({
     @required this.label,
     @required this.ontap,

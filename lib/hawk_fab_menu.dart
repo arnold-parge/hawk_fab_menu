@@ -8,13 +8,15 @@ class HawkFabMenu extends StatefulWidget {
   final Widget body;
   final List<HawkFabMenuItem> items;
   final double blur;
+  final Color shadowColor;
   final AnimatedIconData icon;
   final Color fabColor;
   final Color iconColor;
   HawkFabMenu({
-    @required this.body,
+    this.body,
     @required this.items,
     this.blur: 5.0,
+    this.shadowColor: Colors.black12,
     this.icon,
     this.fabColor,
     this.iconColor,
@@ -142,7 +144,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
           sigmaY: this.widget.blur,
         ),
         child: Container(
-          color: Colors.black12,
+          color: widget.shadowColor,
         ),
       ),
     );

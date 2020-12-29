@@ -3,19 +3,74 @@ library hawk_fab_menu;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+// Wrapper for icon data;
+abstract class AnimatedOrNotIconData<T> {
+  T iconData;
+
+  AnimatedOrNotIconData(this.iconData);
+
+  // Checks if icon data is an [AnimatedIconData].
+  bool get isAnimatedIcon =>
+      this.iconData != null && this.iconData is AnimatedIconData;
+}
+
+// Concrete implementation for AnimatedIconData.
+class HawkAnimatedIconData extends AnimatedOrNotIconData<AnimatedIconData> {
+  HawkAnimatedIconData(iconData) : super(iconData);
+}
+
+// Concrete implementation for IconData.
+class HawkNonAnimatedIconData extends AnimatedOrNotIconData<IconData> {
+  HawkNonAnimatedIconData(iconData) : super(iconData);
+}
+
 /// Wrapper that builds a FAB menu on top of [body] in a [Stack]
 class HawkFabMenu extends StatefulWidget {
   final Widget body;
   final List<HawkFabMenuItem> items;
   final double blur;
-  final AnimatedIconData icon;
+  final AnimatedOrNotIconData icon;
   final Color fabColor;
   final Color iconColor;
+
+  // Creates a hawk fab menu with animated icon.
   HawkFabMenu({
+    @required body,
+    @required items,
+    blur: 5.0,
+    AnimatedIconData icon,
+    fabColor,
+    iconColor,
+  }) : this.iconData(
+            body: body,
+            items: items,
+            blur: blur,
+            icon: HawkAnimatedIconData(icon ?? AnimatedIcons.menu_close),
+            fabColor: fabColor,
+            iconColor: iconColor);
+
+  // Creates a hawk fab menu with non-animated icon.
+  HawkFabMenu.nonAnimated({
+    @required body,
+    @required items,
+    blur: 5.0,
+    IconData icon,
+    fabColor,
+    iconColor,
+  }) : this.iconData(
+            body: body,
+            items: items,
+            blur: blur,
+            icon: HawkNonAnimatedIconData(icon ?? Icons.menu),
+            fabColor: fabColor,
+            iconColor: iconColor);
+
+  // Creates a hawk fab menu with icon wrapper.
+  HawkFabMenu.iconData({
     @required this.body,
     @required this.items,
     this.blur: 5.0,
-    this.icon,
+    @required this.icon,
     this.fabColor,
     this.iconColor,
   }) {
@@ -155,11 +210,13 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       bottom: 10,
       right: 10,
       child: FloatingActionButton(
-        child: AnimatedIcon(
-          icon: this.widget.icon ?? AnimatedIcons.menu_close,
-          progress: _iconAnimationTween,
-          color: this.widget.iconColor,
-        ),
+        child: this.widget.icon.isAnimatedIcon
+            ? AnimatedIcon(
+                icon: this.widget.icon.iconData,
+                progress: _iconAnimationTween,
+                color: this.widget.iconColor,
+              )
+            : Icon(this.widget.icon.iconData, color: this.widget.iconColor),
         backgroundColor: this.widget.fabColor ?? Theme.of(context).primaryColor,
         onPressed: _toggleMenu,
       ),

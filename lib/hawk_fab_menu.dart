@@ -8,12 +8,12 @@ class HawkFabMenu extends StatefulWidget {
   final Widget body;
   final List<HawkFabMenuItem> items;
   final double blur;
-  final AnimatedIconData icon;
-  final Color fabColor;
-  final Color iconColor;
+  final AnimatedIconData? icon;
+  final Color? fabColor;
+  final Color? iconColor;
   HawkFabMenu({
-    @required this.body,
-    @required this.items,
+    required this.body,
+    required this.items,
     this.blur: 5.0,
     this.icon,
     this.fabColor,
@@ -35,10 +35,10 @@ class _HawkFabMenuState extends State<HawkFabMenu>
   Duration _duration = Duration(milliseconds: 500);
 
   /// Animation controller that animates the menu item
-  AnimationController _iconAnimationCtrl;
+  late AnimationController _iconAnimationCtrl;
 
   /// Animation that animates the menu item
-  Animation<double> _iconAnimationTween;
+  late Animation<double> _iconAnimationTween;
 
   @override
   void initState() {
@@ -176,8 +176,8 @@ class _MenuItemWidget extends StatelessWidget {
   final Function toggleMenu;
 
   _MenuItemWidget({
-    @required this.item,
-    @required this.toggleMenu,
+    required this.item,
+    required this.toggleMenu,
   });
 
   /// Closes the menu and calls the function for a particular menu item
@@ -233,18 +233,18 @@ class HawkFabMenuItem {
   Function ontap;
 
   /// Background color for icon
-  Color color;
+  Color? color;
 
   /// Text color for label
-  Color labelColor;
+  Color? labelColor;
 
   /// Background color for label
-  Color labelBackgroundColor;
+  Color? labelBackgroundColor;
 
   HawkFabMenuItem({
-    @required this.label,
-    @required this.ontap,
-    @required this.icon,
+    required this.label,
+    required this.ontap,
+    required this.icon,
     this.color,
     this.labelBackgroundColor,
     this.labelColor,

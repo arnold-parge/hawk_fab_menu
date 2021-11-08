@@ -9,8 +9,11 @@ class HawkFabMenu extends StatefulWidget {
   final List<HawkFabMenuItem> items;
   final double blur;
   final AnimatedIconData? icon;
+  final IconData? openIcon;
+  final IconData? closeIcon;
   final Color? fabColor;
   final Color? iconColor;
+  final Color? backgroundColor;
   HawkFabMenu({
     Key? key,
     required this.body,
@@ -19,6 +22,9 @@ class HawkFabMenu extends StatefulWidget {
     this.icon,
     this.fabColor,
     this.iconColor,
+    this.backgroundColor,
+    this.openIcon,
+    this.closeIcon,
   }) : super(key: key) {
     assert(items.isNotEmpty);
   }
@@ -116,9 +122,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
             )..forward(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: 
-                  widget
-                  .items
+              children: widget.items
                   .map<Widget>(
                     (item) => _MenuItemWidget(
                       item: item,
@@ -143,7 +147,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
           sigmaY: widget.blur,
         ),
         child: Container(
-          color: Colors.black12,
+          color: widget.backgroundColor ?? Colors.black12,
         ),
       ),
     );
@@ -152,15 +156,24 @@ class _HawkFabMenuState extends State<HawkFabMenu>
   /// Builds the main floating action button of the menu to the bottom right
   /// On clicking of which the menu toggles
   Widget _buildMenuButton(BuildContext context) {
+    late Widget iconWidget;
+    if (widget.openIcon != null && widget.closeIcon != null) {
+      iconWidget = Icon(
+        _isOpen ? widget.closeIcon : widget.openIcon,
+        color: widget.iconColor,
+      );
+    } else {
+      iconWidget = AnimatedIcon(
+        icon: widget.icon ?? AnimatedIcons.menu_close,
+        progress: _iconAnimationTween,
+        color: widget.iconColor,
+      );
+    }
     return Positioned(
       bottom: 10,
       right: 10,
       child: FloatingActionButton(
-        child: AnimatedIcon(
-          icon: widget.icon ?? AnimatedIcons.menu_close,
-          progress: _iconAnimationTween,
-          color: widget.iconColor,
-        ),
+        child: iconWidget,
         backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
         onPressed: _toggleMenu,
       ),

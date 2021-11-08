@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,21 +13,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: MyHomePage(title: 'Hawk Fab Menu Demo'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.title),
+        title: const Text('Hawk Fab Menu Demo'),
       ),
       body: Builder(
         // builder is used only for the snackbar, if you don't want the snackbar you can remove
@@ -38,39 +38,39 @@ class MyHomePage extends StatelessWidget {
             HawkFabMenuItem(
               label: 'Menu 1',
               ontap: () {
-                Scaffold.of(context)..hideCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('Menu 1 selected')),
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Menu 1 selected')),
                 );
               },
-              icon: Icon(Icons.home),
+              icon: const Icon(Icons.home),
               color: Colors.red,
               labelColor: Colors.blue,
             ),
             HawkFabMenuItem(
               label: 'Menu 2',
               ontap: () {
-                Scaffold.of(context)..hideCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('Menu 2 selected')),
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Menu 2 selected')),
                 );
               },
-              icon: Icon(Icons.comment),
+              icon: const Icon(Icons.comment),
               labelColor: Colors.white,
               labelBackgroundColor: Colors.blue,
             ),
             HawkFabMenuItem(
               label: 'Menu 3 (default)',
               ontap: () {
-                Scaffold.of(context)..hideCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text('Menu 3 selected')),
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Menu 3 selected')),
                 );
               },
-              icon: Icon(Icons.add_a_photo),
+              icon: const Icon(Icons.add_a_photo),
             ),
           ],
-          body: Center(
+          body: const Center(
             child: Text('Center of the screen'),
           ),
         ),

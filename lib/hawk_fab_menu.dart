@@ -8,18 +8,19 @@ class HawkFabMenu extends StatefulWidget {
   final Widget body;
   final List<HawkFabMenuItem> items;
   final double blur;
-  final AnimatedIconData icon;
-  final Color fabColor;
-  final Color iconColor;
+  final AnimatedIconData? icon;
+  final Color? fabColor;
+  final Color? iconColor;
   HawkFabMenu({
-    @required this.body,
-    @required this.items,
-    this.blur: 5.0,
+    Key? key,
+    required this.body,
+    required this.items,
+    this.blur = 5.0,
     this.icon,
     this.fabColor,
     this.iconColor,
-  }) {
-    assert(this.items.length > 0);
+  }) : super(key: key) {
+    assert(items.isNotEmpty);
   }
 
   @override
@@ -32,13 +33,13 @@ class _HawkFabMenuState extends State<HawkFabMenu>
   bool _isOpen = false;
 
   /// The [Duration] for every animation
-  Duration _duration = Duration(milliseconds: 500);
+  final Duration _duration = const Duration(milliseconds: 500);
 
   /// Animation controller that animates the menu item
-  AnimationController _iconAnimationCtrl;
+  late AnimationController _iconAnimationCtrl;
 
   /// Animation that animates the menu item
-  Animation<double> _iconAnimationTween;
+  late Animation<double> _iconAnimationTween;
 
   @override
   void initState() {
@@ -115,8 +116,8 @@ class _HawkFabMenuState extends State<HawkFabMenu>
             )..forward(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: this
-                  .widget
+              children: 
+                  widget
                   .items
                   .map<Widget>(
                     (item) => _MenuItemWidget(
@@ -138,8 +139,8 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       onTap: _toggleMenu,
       child: BackdropFilter(
         filter: ui.ImageFilter.blur(
-          sigmaX: this.widget.blur,
-          sigmaY: this.widget.blur,
+          sigmaX: widget.blur,
+          sigmaY: widget.blur,
         ),
         child: Container(
           color: Colors.black12,
@@ -156,11 +157,11 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       right: 10,
       child: FloatingActionButton(
         child: AnimatedIcon(
-          icon: this.widget.icon ?? AnimatedIcons.menu_close,
+          icon: widget.icon ?? AnimatedIcons.menu_close,
           progress: _iconAnimationTween,
-          color: this.widget.iconColor,
+          color: widget.iconColor,
         ),
-        backgroundColor: this.widget.fabColor ?? Theme.of(context).primaryColor,
+        backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
         onPressed: _toggleMenu,
       ),
     );
@@ -175,45 +176,45 @@ class _MenuItemWidget extends StatelessWidget {
   /// A callback that toggles the menu
   final Function toggleMenu;
 
-  _MenuItemWidget({
-    @required this.item,
-    @required this.toggleMenu,
+  const _MenuItemWidget({
+    required this.item,
+    required this.toggleMenu,
   });
 
   /// Closes the menu and calls the function for a particular menu item
   void onTap() {
-    this.toggleMenu();
-    this.item.ontap();
+    toggleMenu();
+    item.ontap();
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: this.onTap,
+      onTap: onTap,
       child: Row(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 3,
             ),
             decoration: BoxDecoration(
-              color: this.item.labelBackgroundColor ?? Colors.white,
-              borderRadius: BorderRadius.only(
+              color: item.labelBackgroundColor ?? Colors.white,
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 bottomLeft: Radius.circular(10),
               ),
             ),
             child: Text(
-              this.item.label,
-              style: TextStyle(color: this.item.labelColor ?? Colors.black87),
+              item.label,
+              style: TextStyle(color: item.labelColor ?? Colors.black87),
             ),
           ),
           FloatingActionButton(
-            onPressed: this.onTap,
+            onPressed: onTap,
             mini: true,
-            child: this.item.icon,
-            backgroundColor: this.item.color ?? Theme.of(context).primaryColor,
+            child: item.icon,
+            backgroundColor: item.color ?? Theme.of(context).primaryColor,
           ),
         ],
       ),
@@ -233,18 +234,18 @@ class HawkFabMenuItem {
   Function ontap;
 
   /// Background color for icon
-  Color color;
+  Color? color;
 
   /// Text color for label
-  Color labelColor;
+  Color? labelColor;
 
   /// Background color for label
-  Color labelBackgroundColor;
+  Color? labelBackgroundColor;
 
   HawkFabMenuItem({
-    @required this.label,
-    @required this.ontap,
-    @required this.icon,
+    required this.label,
+    required this.ontap,
+    required this.icon,
     this.color,
     this.labelBackgroundColor,
     this.labelColor,

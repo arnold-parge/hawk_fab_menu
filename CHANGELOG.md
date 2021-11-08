@@ -1,3 +1,7 @@
+## [1.1.0]
+- Ability to added non animated icon in the FAB
+- Customization background color
+
 ## [1.0.0] - Breaking Change
 - Added Null Safety
 
@@ -9,20 +13,16 @@
     - Refactored non-breakable function and class
 
 ## [0.2.2]
-
-* Added demo gif in readme.
-* Fixed experimental control-flow-collections error
+- Added demo gif in readme.
+- Fixed experimental control-flow-collections error
 
 ## [0.2.1]
-
-* Updated README.
+- Updated README.
 
 ## [0.2.0]
-
-* Renamed classes
-* Default value of blur is set to 5.0
-* Added example
+- Renamed classes
+- Default value of blur is set to 5.0
+- Added example
 
 ## [0.0.1]
-
-* Initial release.
+- Initial release.

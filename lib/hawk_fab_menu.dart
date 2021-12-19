@@ -14,6 +14,8 @@ class HawkFabMenu extends StatefulWidget {
   final Color? fabColor;
   final Color? iconColor;
   final Color? backgroundColor;
+  final String? heroTag;
+
   HawkFabMenu({
     Key? key,
     required this.body,
@@ -25,6 +27,7 @@ class HawkFabMenu extends StatefulWidget {
     this.backgroundColor,
     this.openIcon,
     this.closeIcon,
+    this.heroTag,
   }) : super(key: key) {
     assert(items.isNotEmpty);
   }
@@ -174,6 +177,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       right: 10,
       child: FloatingActionButton(
         child: iconWidget,
+        heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
         backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
         onPressed: _toggleMenu,
       ),
@@ -225,6 +229,7 @@ class _MenuItemWidget extends StatelessWidget {
           ),
           FloatingActionButton(
             onPressed: onTap,
+            heroTag: item.heroTag ?? '_MenuItemWidget_$hashCode',
             mini: true,
             child: item.icon,
             backgroundColor: item.color ?? Theme.of(context).primaryColor,
@@ -255,6 +260,9 @@ class HawkFabMenuItem {
   /// Background color for label
   Color? labelBackgroundColor;
 
+  /// The tag to apply to the button's [Hero] widget.
+  String? heroTag;
+
   HawkFabMenuItem({
     required this.label,
     required this.ontap,
@@ -262,5 +270,6 @@ class HawkFabMenuItem {
     this.color,
     this.labelBackgroundColor,
     this.labelColor,
+    this.heroTag,
   });
 }

@@ -63,6 +63,12 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     ).animate(_iconAnimationCtrl);
   }
 
+  @override
+  void dispose() {
+    _iconAnimationCtrl.dispose();
+    super.dispose();
+  }
+
   /// Closes the menu if open and vice versa
   void _toggleMenu() {
     setState(() {

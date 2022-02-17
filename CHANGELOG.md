@@ -1,6 +1,6 @@
 ## 1.1.1
 
-- Fixed #12: Added hero tag to fabs that is changable
+- Fixed #12: Added hero tag to fabs that is changeable
 
 ## 1.1.0
 

@@ -14,6 +14,7 @@ class HawkFabMenu extends StatefulWidget {
   final Color? fabColor;
   final Color? iconColor;
   final Color? backgroundColor;
+  final BorderSide buttonBorder;
   final String? heroTag;
 
   HawkFabMenu({
@@ -25,6 +26,7 @@ class HawkFabMenu extends StatefulWidget {
     this.fabColor,
     this.iconColor,
     this.backgroundColor,
+    this.buttonBorder = BorderSide.none,
     this.openIcon,
     this.closeIcon,
     this.heroTag,
@@ -186,6 +188,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
         heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
         backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
         onPressed: _toggleMenu,
+        shape: StadiumBorder(side: widget.buttonBorder),
       ),
     );
   }
@@ -237,14 +240,7 @@ class _MenuItemWidget extends StatelessWidget {
             onPressed: onTap,
             heroTag: item.heroTag ?? '_MenuItemWidget_$hashCode',
             mini: true,
-            shape: StadiumBorder(
-              side: item.colorBorderButton != null
-                  ? BorderSide(
-                      color: item.colorBorderButton!,
-                      width: 1,
-                    )
-                  : BorderSide.none,
-            ),
+            shape: StadiumBorder(side: item.buttonBorder),
             child: item.icon,
             backgroundColor: item.color ?? Theme.of(context).primaryColor,
           ),
@@ -268,8 +264,8 @@ class HawkFabMenuItem {
   /// Background color for icon
   Color? color;
 
-  // Border Color for floatActionButton
-  Color? colorBorderButton;
+  // Border for the floatActionButton
+  BorderSide buttonBorder;
 
   /// Text color for label
   Color? labelColor;
@@ -285,7 +281,7 @@ class HawkFabMenuItem {
     required this.ontap,
     required this.icon,
     this.color,
-    this.colorBorderButton,
+    this.buttonBorder = BorderSide.none,
     this.labelBackgroundColor,
     this.labelColor,
     this.heroTag,

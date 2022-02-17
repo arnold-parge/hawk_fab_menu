@@ -237,6 +237,14 @@ class _MenuItemWidget extends StatelessWidget {
             onPressed: onTap,
             heroTag: item.heroTag ?? '_MenuItemWidget_$hashCode',
             mini: true,
+            shape: StadiumBorder(
+              side: item.colorBorderButton != null
+                  ? BorderSide(
+                      color: item.colorBorderButton!,
+                      width: 1,
+                    )
+                  : BorderSide.none,
+            ),
             child: item.icon,
             backgroundColor: item.color ?? Theme.of(context).primaryColor,
           ),
@@ -260,6 +268,9 @@ class HawkFabMenuItem {
   /// Background color for icon
   Color? color;
 
+  // Border Color for floatActionButton
+  Color? colorBorderButton;
+
   /// Text color for label
   Color? labelColor;
 
@@ -274,6 +285,7 @@ class HawkFabMenuItem {
     required this.ontap,
     required this.icon,
     this.color,
+    this.colorBorderButton,
     this.labelBackgroundColor,
     this.labelColor,
     this.heroTag,

@@ -1,3 +1,8 @@
+## 1.1.2
+
+- Fixed: Ticker is active after leave page #14
+- Added border to main and mini fabs
+
 ## 1.1.1
 
 - Fixed #12: Added hero tag to fabs that is changeable

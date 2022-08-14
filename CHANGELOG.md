@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Toggle the menu open state manually
+
 ## 1.1.2
 
 - Fixed: Ticker is active after leave page #14

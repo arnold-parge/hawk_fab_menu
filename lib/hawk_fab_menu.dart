@@ -3,6 +3,12 @@ library hawk_fab_menu;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+/// Used to toggle the menu from other than the dedicated button.
+class HawkFabMenuController {
+  late Function toggleMenu;
+  HawkFabMenuController();
+}
+
 /// Wrapper that builds a FAB menu on top of [body] in a [Stack]
 class HawkFabMenu extends StatefulWidget {
   final Widget body;
@@ -16,6 +22,7 @@ class HawkFabMenu extends StatefulWidget {
   final Color? backgroundColor;
   final BorderSide buttonBorder;
   final String? heroTag;
+  final HawkFabMenuController? hawkFabMenuController;
 
   HawkFabMenu({
     Key? key,
@@ -30,6 +37,7 @@ class HawkFabMenu extends StatefulWidget {
     this.openIcon,
     this.closeIcon,
     this.heroTag,
+    this.hawkFabMenuController,
   }) : super(key: key) {
     assert(items.isNotEmpty);
   }
@@ -63,6 +71,10 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       begin: 0.0,
       end: 1.0,
     ).animate(_iconAnimationCtrl);
+
+    if (widget.hawkFabMenuController != null) {
+      widget.hawkFabMenuController!.toggleMenu = _toggleMenu;
+    }
   }
 
   @override

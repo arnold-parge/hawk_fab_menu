@@ -18,19 +18,38 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+/// [StatefulWidget] is used only for [HawkFabMenuController] which is used
+/// to toggle the menu from other than dedicated button. If you don't have this
+/// usecase, then you can even use [StatelessWidget].
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  HawkFabMenuController hawkFabMenuController = HawkFabMenuController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hawk Fab Menu Demo'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              hawkFabMenuController.toggleMenu();
+            },
+            icon: const Icon(Icons.replay_outlined),
+          ),
+        ],
       ),
       body: HawkFabMenu(
         icon: AnimatedIcons.menu_arrow,
         fabColor: Colors.yellow,
         iconColor: Colors.green,
+        hawkFabMenuController: hawkFabMenuController,
         items: [
           HawkFabMenuItem(
             label: 'Menu 1',

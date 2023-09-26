@@ -268,7 +268,7 @@ class HawkFabMenuItem {
   String label;
 
   /// Corresponding icon for the menu item
-  Icon icon;
+  Widget icon;
 
   /// Action that is to be performed on tapping the menu item
   Function ontap;

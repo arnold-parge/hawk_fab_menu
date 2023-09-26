@@ -8,12 +8,12 @@ import 'package:flutter/scheduler.dart';
 /// Used to toggle the menu from other than the dedicated button.
 class HawkFabMenuController extends ChangeNotifier {
   late Function toggleMenu;
-  bool _showMenu = true;
+  bool _showHawkMenu = true;
   late GlobalKey<_HawkFabMenuState> fabKey;
 
-  bool get showHawkMenu => _showMenu;
+  bool get showHawkMenu => _showHawkMenu;
   set showHawkMenu(bool enabled) {
-    _showMenu = enabled;
+    _showHawkMenu = enabled;
     notifyListeners();
   }
 
@@ -90,10 +90,6 @@ class _HawkFabMenuState extends State<HawkFabMenu> with TickerProviderStateMixin
     }
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {});
-  }
-
-  void notify() {
-    if (mounted) setState(() {});
   }
 
   @override

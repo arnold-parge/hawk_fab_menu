@@ -3,9 +3,20 @@ library hawk_fab_menu;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter/scheduler.dart';
+
 /// Used to toggle the menu from other than the dedicated button.
-class HawkFabMenuController {
+class HawkFabMenuController extends ChangeNotifier {
   late Function toggleMenu;
+  bool _showMenu = true;
+  late GlobalKey<_HawkFabMenuState> fabKey;
+
+  bool get showHawkMenu => _showMenu;
+  set showHawkMenu(bool enabled) {
+    _showMenu = enabled;
+    notifyListeners();
+  }
+
   HawkFabMenuController();
 }
 
@@ -46,8 +57,7 @@ class HawkFabMenu extends StatefulWidget {
   _HawkFabMenuState createState() => _HawkFabMenuState();
 }
 
-class _HawkFabMenuState extends State<HawkFabMenu>
-    with TickerProviderStateMixin {
+class _HawkFabMenuState extends State<HawkFabMenu> with TickerProviderStateMixin {
   /// To check if the menu is open
   bool _isOpen = false;
 
@@ -74,12 +84,22 @@ class _HawkFabMenuState extends State<HawkFabMenu>
 
     if (widget.hawkFabMenuController != null) {
       widget.hawkFabMenuController!.toggleMenu = _toggleMenu;
+      widget.hawkFabMenuController!.addListener(() {
+        if (mounted) setState(() {});
+      });
     }
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {});
+  }
+
+  void notify() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
     _iconAnimationCtrl.dispose();
+    widget.hawkFabMenuController?.dispose();
     super.dispose();
   }
 
@@ -110,9 +130,9 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       child: Stack(
         children: <Widget>[
           widget.body,
-          _isOpen ? _buildBlurWidget() : Container(),
-          _isOpen ? _buildMenuItemList() : Container(),
-          _buildMenuButton(context),
+          if ((widget.hawkFabMenuController?.showHawkMenu ?? true) && _isOpen) _buildBlurWidget(),
+          if ((widget.hawkFabMenuController?.showHawkMenu ?? true) && _isOpen) _buildMenuItemList(),
+          if ((widget.hawkFabMenuController?.showHawkMenu ?? true)) _buildMenuButton(context),
         ],
       ),
       onWillPop: _preventPopIfOpen,

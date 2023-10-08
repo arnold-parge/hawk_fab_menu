@@ -34,6 +34,8 @@ class HawkFabMenu extends StatefulWidget {
   final BorderSide buttonBorder;
   final String? heroTag;
   final HawkFabMenuController? hawkFabMenuController;
+  final bool safeArea;
+  final bool showMenuButton;
 
   HawkFabMenu({
     Key? key,
@@ -49,6 +51,8 @@ class HawkFabMenu extends StatefulWidget {
     this.closeIcon,
     this.heroTag,
     this.hawkFabMenuController,
+    this.safeArea = false,
+    this.showMenuButton = true,
   }) : super(key: key) {
     assert(items.isNotEmpty);
   }
@@ -195,6 +199,7 @@ class _HawkFabMenuState extends State<HawkFabMenu> with TickerProviderStateMixin
   /// Builds the main floating action button of the menu to the bottom right
   /// On clicking of which the menu toggles
   Widget _buildMenuButton(BuildContext context) {
+    if (!widget.showMenuButton) return const SizedBox.shrink();
     late Widget iconWidget;
     if (widget.openIcon != null && widget.closeIcon != null) {
       iconWidget = Icon(
@@ -208,16 +213,19 @@ class _HawkFabMenuState extends State<HawkFabMenu> with TickerProviderStateMixin
         color: widget.iconColor,
       );
     }
+
+    Widget fab = FloatingActionButton(
+      child: iconWidget,
+      heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
+      backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
+      onPressed: _toggleMenu,
+      shape: StadiumBorder(side: widget.buttonBorder),
+    );
+
     return Positioned(
       bottom: 10,
       right: 10,
-      child: FloatingActionButton(
-        child: iconWidget,
-        heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
-        backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
-        onPressed: _toggleMenu,
-        shape: StadiumBorder(side: widget.buttonBorder),
-      ),
+      child: widget.safeArea ? SafeArea(child: fab) : fab,
     );
   }
 }

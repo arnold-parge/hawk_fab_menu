@@ -3,9 +3,20 @@ library hawk_fab_menu;
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter/scheduler.dart';
+
 /// Used to toggle the menu from other than the dedicated button.
-class HawkFabMenuController {
+class HawkFabMenuController extends ChangeNotifier {
   late Function toggleMenu;
+  bool _showHawkMenu = true;
+  late GlobalKey<_HawkFabMenuState> fabKey;
+
+  bool get showHawkMenu => _showHawkMenu;
+  set showHawkMenu(bool enabled) {
+    _showHawkMenu = enabled;
+    notifyListeners();
+  }
+
   HawkFabMenuController();
 }
 
@@ -23,6 +34,8 @@ class HawkFabMenu extends StatefulWidget {
   final BorderSide buttonBorder;
   final String? heroTag;
   final HawkFabMenuController? hawkFabMenuController;
+  final bool safeArea;
+  final bool showMenuButton;
 
   HawkFabMenu({
     Key? key,
@@ -38,6 +51,8 @@ class HawkFabMenu extends StatefulWidget {
     this.closeIcon,
     this.heroTag,
     this.hawkFabMenuController,
+    this.safeArea = false,
+    this.showMenuButton = true,
   }) : super(key: key) {
     assert(items.isNotEmpty);
   }
@@ -46,8 +61,7 @@ class HawkFabMenu extends StatefulWidget {
   _HawkFabMenuState createState() => _HawkFabMenuState();
 }
 
-class _HawkFabMenuState extends State<HawkFabMenu>
-    with TickerProviderStateMixin {
+class _HawkFabMenuState extends State<HawkFabMenu> with TickerProviderStateMixin {
   /// To check if the menu is open
   bool _isOpen = false;
 
@@ -74,12 +88,18 @@ class _HawkFabMenuState extends State<HawkFabMenu>
 
     if (widget.hawkFabMenuController != null) {
       widget.hawkFabMenuController!.toggleMenu = _toggleMenu;
+      widget.hawkFabMenuController!.addListener(() {
+        if (mounted) setState(() {});
+      });
     }
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   @override
   void dispose() {
     _iconAnimationCtrl.dispose();
+    widget.hawkFabMenuController?.dispose();
     super.dispose();
   }
 
@@ -110,9 +130,9 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       child: Stack(
         children: <Widget>[
           widget.body,
-          _isOpen ? _buildBlurWidget() : Container(),
-          _isOpen ? _buildMenuItemList() : Container(),
-          _buildMenuButton(context),
+          if ((widget.hawkFabMenuController?.showHawkMenu ?? true) && _isOpen) _buildBlurWidget(),
+          if ((widget.hawkFabMenuController?.showHawkMenu ?? true) && _isOpen) _buildMenuItemList(),
+          if ((widget.hawkFabMenuController?.showHawkMenu ?? true)) _buildMenuButton(context),
         ],
       ),
       onWillPop: _preventPopIfOpen,
@@ -179,6 +199,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
   /// Builds the main floating action button of the menu to the bottom right
   /// On clicking of which the menu toggles
   Widget _buildMenuButton(BuildContext context) {
+    if (!widget.showMenuButton) return const SizedBox.shrink();
     late Widget iconWidget;
     if (widget.openIcon != null && widget.closeIcon != null) {
       iconWidget = Icon(
@@ -192,16 +213,19 @@ class _HawkFabMenuState extends State<HawkFabMenu>
         color: widget.iconColor,
       );
     }
+
+    Widget fab = FloatingActionButton(
+      child: iconWidget,
+      heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
+      backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
+      onPressed: _toggleMenu,
+      shape: StadiumBorder(side: widget.buttonBorder),
+    );
+
     return Positioned(
       bottom: 10,
       right: 10,
-      child: FloatingActionButton(
-        child: iconWidget,
-        heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
-        backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
-        onPressed: _toggleMenu,
-        shape: StadiumBorder(side: widget.buttonBorder),
-      ),
+      child: widget.safeArea ? SafeArea(child: fab) : fab,
     );
   }
 }
@@ -268,7 +292,7 @@ class HawkFabMenuItem {
   String label;
 
   /// Corresponding icon for the menu item
-  Icon icon;
+  Widget icon;
 
   /// Action that is to be performed on tapping the menu item
   Function ontap;
